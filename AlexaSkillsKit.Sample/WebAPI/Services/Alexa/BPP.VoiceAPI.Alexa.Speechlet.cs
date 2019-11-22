@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using AlexaSkillsKit.Speechlet;
 using AlexaSkillsKit.Slu;
 using AlexaSkillsKit.UI;
 using System.Diagnostics;
+using System.Linq;
+using Sample.WebAPI.Services.Data;
+using System.Text;
 
 namespace BPP.VoiceAPI.Services
 {
@@ -79,6 +81,22 @@ namespace BPP.VoiceAPI.Services
             {
                 return ClassroomQuery(intent, session);
             }
+            else if (intentName.Equals("FAQIntent"))
+            {
+                return FAQIntent(intent, session);
+            }
+            else if (intentName.Equals("WIFIFAQIntent"))
+            {
+                return WIFIFAQIntent(intent, session);
+            }
+            else if (intentName.Equals("TrainsIntent"))
+            {
+                return TrainsIntent(intent, session);
+            }
+            else if (intentName.Equals("NearestTrainsIntent"))
+            {
+                return NearestTrainsIntent(intent, session);
+            }
             else if ("Timetable_DateQuery".Equals(intentName))
             {
                 return Timetable_DateQuery(intent, session);
@@ -145,11 +163,11 @@ namespace BPP.VoiceAPI.Services
 
         private SpeechletResponse ClassroomQuery(Intent intent, Session session)
         {
+
+            var slots = intent.Slots;
             
-            Dictionary<string, Slot> slots = intent.Slots;
-
             var classType = slots["class"];
-
+            
             if(classType.Value == null)
             {
                 Debug.WriteLine("NULL");
@@ -157,16 +175,122 @@ namespace BPP.VoiceAPI.Services
                 return BuildSpeechletResponse("Unknown Class", "Sorry, I did not recognise your class", false);
             }
 
-            Debug.WriteLine($"**** {classType.Value} ****");
+            var resolution = classType.Resolutions.ResolutionsPerAuthority.FirstOrDefault();
+            var status = resolution.Status.Code;
+            var resolutionValue = resolution.Values.FirstOrDefault().Value;
 
-            var speechOutput = $"Your {classType.Value} class is on the second floor!";
+            Debug.WriteLine($"**** {classType.Value} / {resolutionValue.Id} / {resolutionValue.Name}  ****");
 
-            return BuildSpeechletResponse(classType.Value, speechOutput, false);
+            if (status.Equals("ER_SUCCESS_NO_MATCH",StringComparison.InvariantCultureIgnoreCase))
+            {
+                Debug.WriteLine("Unmatched");
+
+                return BuildSpeechletResponse("Unmatched Class", "Sorry, I could not find your class", false);
+            }
+
+            var query = new VoiceQuery();
+
+            var courses = query.GetCoursesForBody(resolutionValue.Id);
+
+            var speechOutput = new StringBuilder();
+            if (courses.Count == 0)
+            {
+                speechOutput.Append($"Could not find location for {classType.Value} class!");
+            }
+            else if (courses.Count == 1)
+            {
+                var datePart = courses[0].StartTime.ToShortDateString();
+                var timePart = courses[0].StartTime.ToLocalTime();
+                speechOutput.Append($"Your {resolutionValue.Name} class is in room {courses[0].Room} {dateOrTimePart(courses[0].StartTime)}");
+            }
+            else
+            {
+                speechOutput.Append($"Found {courses.Count} classes for {resolutionValue.Name}! ");
+                foreach (var course in courses) {
+                    speechOutput.Append($"{course.Paper} in room {courses[0].Room} {dateOrTimePart(courses[0].StartTime)}. ");
+                }
+            }
+
+            return BuildSpeechletResponse(classType.Value, speechOutput.ToString(), false);
         }
+
+        private string dateOrTimePart(DateTime startDateTime)
+        {
+            var datePart = startDateTime.ToShortDateString();
+            var timePart = startDateTime.Hour<=12 ? startDateTime.Hour : startDateTime.Hour-12;
+            if (datePart == DateTime.Now.ToShortDateString())
+            {
+                return $"at {timePart} O Clock!";
+            }
+            else
+            {
+                return $"on {datePart} at {timePart} O Clock!";
+            }
+        }
+
+        private SpeechletResponse FAQIntent(Intent intent, Session session)
+        {
+            var speechOutput = $"You can get IT support by calling 03300603850, or visit the VLE online to access the IT self service portal";
+
+            return BuildSpeechletResponse("IT Support request", speechOutput, false);
+        }
+
+        private SpeechletResponse WIFIFAQIntent(Intent intent, Session session)
+        {
+            var speechOutput = $"You can connect to the BPP student WIFI using passwords provided within the classrooms";
+
+            return BuildSpeechletResponse("Student WiFi", speechOutput, false);
+        }
+
+        private SpeechletResponse TrainsIntent(Intent intent, Session session)
+        {
+            var slots = intent.Slots;
+
+            var stationName = slots["station"];
+
+            if (stationName.Value == null)
+            {
+                Debug.WriteLine("NULL");
+
+                return BuildSpeechletResponse("Unknown station Name", "Sorry, I did not recognise your station", false);
+            }
+
+            var resolution = stationName.Resolutions.ResolutionsPerAuthority.FirstOrDefault();
+            var status = resolution.Status.Code;
+            var resolutionValue = resolution.Values.FirstOrDefault().Value;
+
+            Debug.WriteLine($"**** {stationName.Value} / {resolutionValue.Id} / {resolutionValue.Name}  ****");
+
+            if (status.Equals("ER_SUCCESS_NO_MATCH", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Debug.WriteLine("Unmatched");
+
+                return BuildSpeechletResponse("Unmatched Station", "Sorry, I could not find your station", false);
+            }
+            if (resolutionValue.Id == "victoria")
+            {
+                return BuildSpeechletResponse("Train Station Directions", "Victoria Station is about 20 minutes walking, may I suggest you get a taxi", false);
+            }
+            else if (resolutionValue.Id == "piccadilly")
+            {
+                return BuildSpeechletResponse("Train Station Directions", "Piccadilly Station is about 10 minutes walking, or you could get a taxi", false);
+            }
+            else if (resolutionValue.Id == "oxfordroad" || resolutionValue.Id == "oxford")
+            {
+                return BuildSpeechletResponse("Train Station Directions", "Oxford Road Station is about 5 minutes walking.", false);
+            }
+            return BuildSpeechletResponse("Unknown station Name", "Sorry, I did not recognise your station", false);
+        }
+
+        private SpeechletResponse NearestTrainsIntent(Intent intent, Session session)
+        {
+            return BuildSpeechletResponse("Train Station Directions", "The nearest station is Oxford Road.", false);
+        }
+
         private SpeechletResponse Timetable_DateQuery(Intent intent, Session session)
         {
             // Get the slots from the intent.
-            Dictionary<string, Slot> slots = intent.Slots;
+            var slots = intent.Slots;
 
             // Get the first last slot from the list slots.
             Slot firstLastSlot = slots[QUERY_FIRSTLAST_SLOT];
@@ -195,7 +319,7 @@ namespace BPP.VoiceAPI.Services
         private SpeechletResponse Timetable_Today(Intent intent, Session session)
         {
             // Get the slots from the intent.
-            Dictionary<string, Slot> slots = intent.Slots;
+           var slots = intent.Slots;
 
             // Get the first last slot from the list slots.
             Slot firstLastSlot = slots[QUERY_FIRSTLAST_SLOT];
