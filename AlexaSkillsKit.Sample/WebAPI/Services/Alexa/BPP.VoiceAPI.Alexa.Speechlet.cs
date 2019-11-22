@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AlexaSkillsKit.Speechlet;
 using AlexaSkillsKit.Slu;
 using AlexaSkillsKit.UI;
+using System.Diagnostics;
 
 namespace BPP.VoiceAPI.Services
 {
@@ -14,8 +15,6 @@ namespace BPP.VoiceAPI.Services
         private const string QUERY_TIMES_SLOT = "Timetable_QueryTimes";
         private const string QUERY_DATETIME = "Date";
 
-
-
         public override void OnSessionStarted(SessionStartedRequest request, Session session)
         {
 
@@ -26,6 +25,7 @@ namespace BPP.VoiceAPI.Services
             return GetWelcomeResponse();
 
         }
+
         public override void OnSessionEnded(SessionEndedRequest request, Session session)
         {
             
@@ -70,15 +70,16 @@ namespace BPP.VoiceAPI.Services
 
         public override SpeechletResponse OnIntent(IntentRequest request, Session session)
         {
-
-            
             // Get intent from the request.
             Intent intent = request.Intent;
             string intentName = (intent != null) ? intent.Name : null;
 
-
             // Find which intent has been requested and process.
-            if ("Timetable_DateQuery".Equals(intentName))
+            if (intentName.Equals("ClassroomQueryIntent"))
+            {
+                return ClassroomQuery(intent, session);
+            }
+            else if ("Timetable_DateQuery".Equals(intentName))
             {
                 return Timetable_DateQuery(intent, session);
             }
@@ -86,7 +87,6 @@ namespace BPP.VoiceAPI.Services
             {
                 return Timetable_Today(intent, session);
             }
-
             else if ("HelloBPPTeam".Equals(intentName))
             {
                 return HelloBPPTeam(intent, session);
@@ -108,18 +108,10 @@ namespace BPP.VoiceAPI.Services
                 throw new SpeechletException("Invalid Intent");
             }
         }
-
-    
-
         
         private SpeechletResponse GetWelcomeResponse()
         {
-
-            //string speechOutput =
-            //    "Welcome to the Air's Web Safety Assistant. I can tell you whats happening at your location, just say, whats my safety briefing? You can change your location by saying, my site is Glasgow. You can ask for a specific briefing by saying, whats my briefing at Nottingham. Or, you can raise an incident by saying, raise an incident.";
-            string speechOutput =
-               "Hi, this is BPP, how can we help?";
-
+            string speechOutput = "Welcome to BPP. How can I help?";
 
             return BuildSpeechletResponse("Welcome to BPP's Smart Speaker Service", speechOutput, false);
         }        
@@ -129,11 +121,13 @@ namespace BPP.VoiceAPI.Services
             string speechOutput = "";
             return BuildSpeechletResponse("Bye!", speechOutput, true);
         }
+
         private SpeechletResponse EndSessionCancel(Intent intent, Session session)
         {
             string speechOutput = "Cancelling.";
             return BuildSpeechletResponse("Bye!", speechOutput, true);
         }
+
         private SpeechletResponse EndSessionThankYou(Intent intent, Session session)
         {
             string speechOutput = "You're welcome.";
@@ -147,9 +141,28 @@ namespace BPP.VoiceAPI.Services
                  "Hello BPP team! I'm really looking forward to working with all of you. I can do lot's of things, for example I can find out timetables, just say, when is my first class today. then. I can start to take over the world! Resistance, is Futile.";
 
             return BuildSpeechletResponse("Hello Team!", speechOutput, false);
-        }       
+        }
 
-      
+        private SpeechletResponse ClassroomQuery(Intent intent, Session session)
+        {
+            
+            Dictionary<string, Slot> slots = intent.Slots;
+
+            var classType = slots["class"];
+
+            if(classType.Value == null)
+            {
+                Debug.WriteLine("NULL");
+
+                return BuildSpeechletResponse("Unknown Class", "Sorry, I did not recognise your class", false);
+            }
+
+            Debug.WriteLine($"**** {classType.Value} ****");
+
+            var speechOutput = $"Your {classType.Value} class is on the second floor!";
+
+            return BuildSpeechletResponse(classType.Value, speechOutput, false);
+        }
         private SpeechletResponse Timetable_DateQuery(Intent intent, Session session)
         {
             // Get the slots from the intent.

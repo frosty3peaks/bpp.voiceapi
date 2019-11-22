@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sample</RootNamespace>
     <AssemblyName>Sample</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -258,6 +258,7 @@
     </None>
     <None Include="Properties\PublishProfiles\BPPvoice - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BPPVoice - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\ProjectBPPAlpha - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -308,7 +309,6 @@
     <Content Include="WebSite\Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Compile Include="Services\airViz\airviz.service.cs" />
     <Content Include="WebAPI\Configurations\Alexa\BPPVoiceIntentSchema.json" />
     <None Include="WebSite\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="WebSite\Scripts\jquery-1.10.2.js" />
