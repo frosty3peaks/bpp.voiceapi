@@ -1,0 +1,7 @@
+What's my timetable for {Date}
+When does my {Timetable_QueryFirstLast} {Timetable_QueryTimes} today
+What is my {Timetable_QueryFirstLast} of today
+When's my {Timetable_QueryFirstLast} today
+What's my {Timetable_QueryFirstLast} of today
+What's my {Timetable_QueryFirstLast} today
+When is my {Timetable_QueryFirstLast} today

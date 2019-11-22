@@ -1,0 +1,118 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "b. p. p.",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "Ok alexa",
+            "Thank you alexa",
+            "Ok thank you alexa",
+            "Thanks alexa",
+            "Thanks ",
+            "Ok thank you"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "Thank you alexa",
+            "Stop"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "Ok let's try again",
+            "Start again",
+            "Restart"
+          ]
+        },
+        {
+          "name": "Timetable_DateQuery",
+          "slots": [
+            {
+              "name": "Date",
+              "type": "AMAZON.DATE"
+            },
+            {
+              "name": "Timetable_QueryFirstLast",
+              "type": "Timetable_QueryFirstLast"
+            },
+            {
+              "name": "Timetable_QueryTimes",
+              "type": "Timetable_QueryTimes"
+            }
+          ],
+          "samples": [
+            "When does my {Timetable_QueryFirstLast} {Timetable_QueryTimes} on {Date}",
+            "When does my {Timetable_QueryFirstLast} {Timetable_QueryTimes} {Date}",
+            "What's my timetable for {Date}"
+          ]
+        },
+        {
+          "name": "Timetable_Today",
+          "slots": [
+            {
+              "name": "Timetable_QueryFirstLast",
+              "type": "Timetable_QueryFirstLast"
+            },
+            {
+              "name": "Timetable_QueryTimes",
+              "type": "Timetable_QueryTimes"
+            }
+          ],
+          "samples": [
+            "When does my {Timetable_QueryFirstLast} {Timetable_QueryTimes} today",
+            "What is my {Timetable_QueryFirstLast} of today",
+            "When's my {Timetable_QueryFirstLast} today",
+            "What's my {Timetable_QueryFirstLast} of today",
+            "What's my {Timetable_QueryFirstLast} today",
+            "When is my {Timetable_QueryFirstLast} today"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "Timetable_QueryFirstLast",
+          "values": [
+            {
+              "name": {
+                "value": "Last Class"
+              }
+            },
+            {
+              "name": {
+                "value": "First Class"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Timetable_QueryTimes",
+          "values": [
+            {
+              "name": {
+                "value": "Finish"
+              }
+            },
+            {
+              "name": {
+                "value": "Start"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

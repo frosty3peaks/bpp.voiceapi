@@ -1,0 +1,89 @@
+{
+  "intents": [
+    {
+      "intent": "MySiteIsIntent",
+      "slots": [
+        {
+          "name": "Site",
+          "type": "AMAZON.AT_CITY"
+        }
+      ]
+    },
+    {
+      "intent": "MySiteSpecificBriefingIntent",
+      "slots": [
+        {
+          "name": "Site",
+          "type": "AMAZON.AT_CITY"
+        }
+      ]
+    },
+    {
+      "intent": "MyBriefingIntent",
+      "slots": [ ]
+    },
+    {
+      "intent": "RaiseIncidentDate",
+      "slots": [
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        },
+        {
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "RaiseIncidentDateChange",
+      "slots": [
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        },
+        {
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "RaiseIncident",
+      "slots": [ ]
+    },
+    {
+      "intent": "RaiseIncidentBooleans",
+      "slots": [
+        {
+          "name": "YesNo",
+          "type": "AIRSWEB_YESNO"
+        }
+      ]
+    },
+    {
+      "intent": "GetIncidentID",
+      "slots": [ ]
+    },
+    {
+      "intent": "GetSite",
+      "slots": [ ]
+    },
+    {
+      "intent": "HelloBobTeam",
+      "slots": [ ]
+    },
+    {
+      "intent": "EndSession",
+      "slots": [ ]
+    },
+    {
+      "intent": "EndSessionThankYou",
+      "slots": [ ]
+    },
+    {
+      "intent": "EndSessionCancel",
+      "slots": [ ]
+    }
+  ]
+}

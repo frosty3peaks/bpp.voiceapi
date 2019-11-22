@@ -1,0 +1,60 @@
+MySiteIsIntent my site is {Site}
+MySiteIsIntent set my site to {Site}
+MySiteSpecificBriefingIntent whats my safety briefing at {Site}
+MySiteSpecificBriefingIntent whats my briefing at {Site}
+MySiteSpecificBriefingIntent my briefing at {Site}
+MySiteSpecificBriefingIntent my safety briefing at {Site}
+MySiteSpecificBriefingIntent whats my safety briefing for {Site}
+MySiteSpecificBriefingIntent whats my briefing for {Site}
+MySiteSpecificBriefingIntent and for {Site}
+MySiteSpecificBriefingIntent and {Site}
+MySiteSpecificBriefingIntent {Site}
+MyBriefingIntent whats my safety briefing
+MyBriefingIntent whats my briefing
+MyBriefingIntent what is my safety briefing
+MyBriefingIntent say my safety briefing
+MyBriefingIntent tell me my safety briefing
+MyBriefingIntent give me my safety briefing
+MyBriefingIntent my safety briefing
+MyBriefingIntent my briefing
+RaiseIncident raise an incident
+RaiseIncidentDate raise an incident for {Date} at {Time}
+RaiseIncidentDate raise an incident for {Date}
+RaiseIncidentDate {Date} at {Time}
+RaiseIncidentDate {Date}
+RaiseIncidentDate {Time}
+RaiseIncidentDateChange sorry {Time}
+RaiseIncidentDateChange sorry {Date}
+RaiseIncidentDateChange sorry {Date} at {Time}
+RaiseIncidentDateChange sorry make that {Time}
+RaiseIncidentDateChange sorry make that {Date}
+RaiseIncidentDateChange sorry make that {Date} at {Time}
+RaiseIncidentDateChange sorry change to {Time}
+RaiseIncidentDateChange sorry change to {Date}
+RaiseIncidentDateChange sorry change to {Date} at {Time}
+RaiseIncidentDateChange change to {Time}
+RaiseIncidentDateChange change to {Date}
+RaiseIncidentDateChange change to {Date} at {Time}
+RaiseIncidentDateChange make that {Time}
+RaiseIncidentDateChange make that {Date}
+RaiseIncidentDateChange make that {Date} at {Time}
+RaiseIncidentBooleans {YesNo}
+GetIncidentID whats the ID
+GetIncidentID whats the ID of the incident
+GetIncidentID whats the incident reference
+GetIncidentID whats the reference
+GetIncidentID for my latest record reference
+GetIncidentID for my latest record ID
+GetSite whats my site
+GetSite whats my site set to
+GetSite what my site is
+GetSite what my site is set to
+HelloBobTeam say hello to team bob
+HelloBobTeam say hello to the team
+HelloBobTeam say hi to the team
+EndSessionThankYou thank you
+EndSessionThankYou thanks
+EndSessionCancel cancel
+EndSessionCancel stop
+EndSession shut up
+EndSession end
